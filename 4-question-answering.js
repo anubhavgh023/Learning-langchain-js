@@ -98,7 +98,7 @@ const answerGenerationPrompt = ChatPromptTemplate.fromTemplate(
 );
 
 //3.2 calling: context & question in parallel using runnableMap
-import { RunnableMap } from "@langchain/core/runnables";
+// import { RunnableMap } from "@langchain/core/runnables";
 
 // const runnableMap = RunnableMap.from({
 //     context: documentRetrievalChain,
