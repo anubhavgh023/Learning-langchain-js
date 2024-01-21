@@ -14,7 +14,7 @@ console.log(pdf);
 import { OllamaEmbeddings } from "@langchain/community/embeddings/ollama";
 
 const embeddings = new OllamaEmbeddings({
-    model: "mistral",
+    model: "llama2",
     baseUrl: "http://localhost:11434",
 });
 
@@ -37,6 +37,7 @@ import { MemoryVectorStore } from "langchain/vectorstores/memory";
 const vectorstore = new MemoryVectorStore(embeddings); //loading embeddings model
 await vectorstore.addDocuments(splitDocs); //loading the splitted doc data which will be embedded
 
+
 //----------------------
 
 //2. Retrieval
@@ -46,7 +47,6 @@ const retrievedDocs = vectorstore.asRetriever();
 
 //2.2: format the reteivedResult into string, we would use chaining
 import { RunnableSequence } from "@langchain/core/runnables"; // for chaining
-import { Document } from "@langchain/core/documents"; //format document output
 
 const convertDocsToString = (documents) => {
     return documents.map((document) => {
@@ -98,7 +98,7 @@ const answerGenerationPrompt = ChatPromptTemplate.fromTemplate(
 );
 
 //3.2 calling: context & question in parallel using runnableMap
-// import { RunnableMap } from "@langchain/core/runnables";
+import { RunnableMap } from "@langchain/core/runnables";
 
 // const runnableMap = RunnableMap.from({
 //     context: documentRetrievalChain,
@@ -106,7 +106,7 @@ const answerGenerationPrompt = ChatPromptTemplate.fromTemplate(
 // });
 
 // const runnableMapOutput = await runnableMap.invoke({
-//     question: "List types of human values in bullet points."
+//     question: "List types of human values."
 // })
 
 // console.log(`---RUNNABLE_MAP_OUTPUT---`);
@@ -122,7 +122,7 @@ import { StringOutputParser } from "@langchain/core/output_parsers";
 
 const ollama = new Ollama({
     baseUrl: "http://localhost:11434",
-    model: "mistral",
+    model: "llama2",
 });
 
 //4.1 retrieval chain, running though all the steps
@@ -138,12 +138,17 @@ const retrievalChain = RunnableSequence.from([
 
 
 //4.2 giving prompt
-const answer = await retrievalChain.invoke({
-    question: "List types of human values in bullet points."
-});
+try {
+    const answer = await retrievalChain.invoke({
+        question: "List types of human values."
+    });
+    console.log(`---FINAL_ANSWER---`);
+    console.log(answer);
+} catch (error) {
+    console.error(error);    
+}
 
-console.log(`---ANSWER---`);
-console.log(answer);
+
 
 
 
