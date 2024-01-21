@@ -1,0 +1,19 @@
+{
+  "name": "langchain-js",
+  "version": "1.0.0",
+  "description": "langchain: basic overview of the ecosystem",
+  "type": "module",
+  "main": "langchain.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@langchain/community": "^0.0.17",
+    "ignore": "^5.3.0",
+    "langchain": "^0.1.2",
+    "pdf-parse": "^1.1.1"
+  }
+}
